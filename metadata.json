@@ -1,0 +1,6 @@
+{
+  "name": "Dadra High School - Joypurhat",
+  "description": "Dynamic CMS-driven school website and admin management portal for Dadra High School, Joypurhat, Bangladesh.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
