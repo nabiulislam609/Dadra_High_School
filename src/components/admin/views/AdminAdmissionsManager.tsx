@@ -66,17 +66,17 @@ export const AdminAdmissionsManager: React.FC = () => {
       {/* Applications Table */}
       <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[850px]">
             <thead className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
               <tr>
-                <th className="py-3.5 px-4">Tracking Code</th>
-                <th className="py-3.5 px-4">Student Name</th>
-                <th className="py-3.5 px-4">Class Applied</th>
-                <th className="py-3.5 px-4">Father / Guardian</th>
-                <th className="py-3.5 px-4">Contact Phone</th>
-                <th className="py-3.5 px-4">Submitted Date</th>
-                <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-4 text-right">Actions</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Tracking Code</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Student Name</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Class Applied</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Father / Guardian</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Contact Phone</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Submitted Date</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Status</th>
+                <th className="py-3.5 px-6 text-right whitespace-nowrap w-32">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -106,32 +106,34 @@ export const AdminAdmissionsManager: React.FC = () => {
                       {app.status}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-right space-x-1">
-                    <button
-                      onClick={() => setActiveApp(app)}
-                      className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700"
-                      title="View Details"
-                    >
-                      <Eye className="w-3.5 h-3.5" />
-                    </button>
-                    {app.status === 'Pending' && (
-                      <>
-                        <button
-                          onClick={() => updateAdmissionStatus(app.id, 'Accepted', 'Documents verified')}
-                          className="p-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700"
-                          title="Accept"
-                        >
-                          <CheckCircle2 className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          onClick={() => updateAdmissionStatus(app.id, 'Rejected', 'Missing prerequisite certificates')}
-                          className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700"
-                          title="Reject"
-                        >
-                          <XCircle className="w-3.5 h-3.5" />
-                        </button>
-                      </>
-                    )}
+                  <td className="py-3 px-6 text-right whitespace-nowrap">
+                    <div className="flex items-center justify-end gap-1.5">
+                      <button
+                        onClick={() => setActiveApp(app)}
+                        className="p-2 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 transition-colors"
+                        title="View Details"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                      </button>
+                      {app.status === 'Pending' && (
+                        <>
+                          <button
+                            onClick={() => updateAdmissionStatus(app.id, 'Accepted', 'Documents verified')}
+                            className="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors"
+                            title="Accept"
+                          >
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => updateAdmissionStatus(app.id, 'Rejected', 'Missing prerequisite certificates')}
+                            className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 transition-colors"
+                            title="Reject"
+                          >
+                            <XCircle className="w-3.5 h-3.5" />
+                          </button>
+                        </>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -164,17 +164,17 @@ export const AdminResultsManager: React.FC = () => {
       {/* Results Table */}
       <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[850px]">
             <thead className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
               <tr>
-                <th className="py-3.5 px-4">Student ID & Name</th>
-                <th className="py-3.5 px-4">Class & Roll</th>
-                <th className="py-3.5 px-4">Examination</th>
-                <th className="py-3.5 px-4">Total Marks</th>
-                <th className="py-3.5 px-4">GPA</th>
-                <th className="py-3.5 px-4">Grade</th>
-                <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-4 text-right">Actions</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Student ID & Name</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Class & Roll</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Examination</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Total Marks</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">GPA</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Grade</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Status</th>
+                <th className="py-3.5 px-6 text-right whitespace-nowrap w-24">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -200,13 +200,16 @@ export const AdminResultsManager: React.FC = () => {
                       {r.published ? 'Published' : 'Draft'}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-right space-x-1">
-                    <button
-                      onClick={() => handleDelete(r.id, r.studentName)}
-                      className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                  <td className="py-3 px-6 text-right whitespace-nowrap">
+                    <div className="flex items-center justify-end">
+                      <button
+                        onClick={() => handleDelete(r.id, r.studentName)}
+                        className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 transition-colors"
+                        title="Delete Result"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

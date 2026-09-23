@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useCMSStore } from '../../../lib/store';
 import { GraduationCap, Plus, Edit, Trash2, Search, X } from 'lucide-react';
 import { Teacher } from '../../../types';
+import { PhotoUploadField } from '../PhotoUploadField';
 
 export const AdminTeachersManager: React.FC = () => {
   const { teachers, addTeacher, updateTeacher, deleteTeacher } = useCMSStore();
@@ -140,15 +141,15 @@ export const AdminTeachersManager: React.FC = () => {
       {/* Teachers Table */}
       <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[820px]">
             <thead className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
               <tr>
-                <th className="py-3.5 px-4">Faculty Member</th>
-                <th className="py-3.5 px-4">Designation</th>
-                <th className="py-3.5 px-4">Subject</th>
-                <th className="py-3.5 px-4">Academic Degree</th>
-                <th className="py-3.5 px-4">Phone & Email</th>
-                <th className="py-3.5 px-4 text-right">Actions</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Faculty Member</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Designation</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Subject</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Academic Degree</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Phone & Email</th>
+                <th className="py-3.5 px-6 text-right whitespace-nowrap w-28">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -177,19 +178,23 @@ export const AdminTeachersManager: React.FC = () => {
                     <div>{t.phone}</div>
                     <div className="text-[11px] text-slate-400">{t.email}</div>
                   </td>
-                  <td className="py-3 px-4 text-right space-x-1">
-                    <button
-                      onClick={() => openEditModal(t)}
-                      className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700"
-                    >
-                      <Edit className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(t.id, t.name)}
-                      className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                  <td className="py-3 px-6 text-right whitespace-nowrap">
+                    <div className="flex items-center justify-end gap-1.5">
+                      <button
+                        onClick={() => openEditModal(t)}
+                        className="p-2 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 transition-colors"
+                        title="Edit Faculty Member"
+                      >
+                        <Edit className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(t.id, t.name)}
+                        className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 transition-colors"
+                        title="Delete Faculty Member"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -302,15 +307,14 @@ export const AdminTeachersManager: React.FC = () => {
                 </div>
               </div>
 
-              <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Photo URL</label>
-                <input
-                  type="url"
-                  value={photoUrl}
-                  onChange={e => setPhotoUrl(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-slate-50/50"
-                />
-              </div>
+              <PhotoUploadField
+                id="teacher-profile-photo"
+                label="Teacher Profile Photo (Computer Upload or Link)"
+                value={photoUrl}
+                onChange={setPhotoUrl}
+                fallbackName={name || 'Teacher'}
+                helperText="Upload passport-size photo from computer (JPG, PNG, WebP) or click 'Or use Image URL'"
+              />
 
               <div className="pt-3 flex justify-end gap-2">
                 <button

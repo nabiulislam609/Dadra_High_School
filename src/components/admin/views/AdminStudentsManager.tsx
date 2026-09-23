@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useCMSStore } from '../../../lib/store';
 import { Users, Plus, Edit, Trash2, Search, Filter, X, ShieldCheck, Printer } from 'lucide-react';
 import { Student } from '../../../types';
+import { PhotoUploadField } from '../PhotoUploadField';
 
 export const AdminStudentsManager: React.FC = () => {
   const { students, addStudent, updateStudent, deleteStudent } = useCMSStore();
@@ -14,6 +15,7 @@ export const AdminStudentsManager: React.FC = () => {
   const [studentId, setStudentId] = useState('');
   const [name, setName] = useState('');
   const [banglaName, setBanglaName] = useState('');
+  const [photoUrl, setPhotoUrl] = useState('');
   const [className, setClassName] = useState('Class 10');
   const [section, setSection] = useState('A');
   const [rollNumber, setRollNumber] = useState(1);
@@ -32,6 +34,7 @@ export const AdminStudentsManager: React.FC = () => {
     setStudentId(`DHS-2026-${Math.floor(1000 + Math.random() * 9000)}`);
     setName('');
     setBanglaName('');
+    setPhotoUrl('');
     setClassName('Class 10');
     setSection('A');
     setRollNumber(students.length + 1);
@@ -51,6 +54,7 @@ export const AdminStudentsManager: React.FC = () => {
     setStudentId(std.studentId);
     setName(std.name);
     setBanglaName(std.banglaName || '');
+    setPhotoUrl(std.photoUrl || '');
     setClassName(std.className);
     setSection(std.section);
     setRollNumber(std.rollNumber);
@@ -73,6 +77,7 @@ export const AdminStudentsManager: React.FC = () => {
       updateStudent(editingStudent.id, {
         name,
         banglaName: banglaName || undefined,
+        photoUrl: photoUrl || undefined,
         className,
         section,
         rollNumber: Number(rollNumber),
@@ -90,6 +95,7 @@ export const AdminStudentsManager: React.FC = () => {
         studentId,
         name,
         banglaName: banglaName || undefined,
+        photoUrl: photoUrl || undefined,
         className,
         section,
         rollNumber: Number(rollNumber),
@@ -183,24 +189,38 @@ export const AdminStudentsManager: React.FC = () => {
       {/* Students Table */}
       <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[840px]">
             <thead className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
               <tr>
-                <th className="py-3.5 px-4">Student ID & Name</th>
-                <th className="py-3.5 px-4">Class & Sec</th>
-                <th className="py-3.5 px-4">Roll</th>
-                <th className="py-3.5 px-4">Stream / Group</th>
-                <th className="py-3.5 px-4">Guardian Contact</th>
-                <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-4 text-right">Actions</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Student ID & Name</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Class & Sec</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Roll</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Stream / Group</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Guardian Contact</th>
+                <th className="py-3.5 px-4 whitespace-nowrap">Status</th>
+                <th className="py-3.5 px-6 text-right whitespace-nowrap w-28">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
               {filtered.map(std => (
                 <tr key={std.id} className="hover:bg-slate-50/50">
-                  <td className="py-3 px-4">
-                    <div className="font-bold text-slate-900">{std.name}</div>
-                    <div className="text-[11px] font-mono text-emerald-800 font-bold">{std.studentId}</div>
+                  <td className="py-3 px-4 flex items-center gap-3">
+                    {std.photoUrl ? (
+                      <img
+                        src={std.photoUrl}
+                        alt={std.name}
+                        className="w-10 h-10 rounded-full object-cover border border-slate-200 shrink-0"
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs shrink-0 border border-emerald-200">
+                        {std.name.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    <div>
+                      <div className="font-bold text-slate-900">{std.name}</div>
+                      <div className="text-[11px] font-mono text-emerald-800 font-bold">{std.studentId}</div>
+                    </div>
                   </td>
                   <td className="py-3 px-4 font-semibold text-slate-800">
                     {std.className} ({std.section})
@@ -220,21 +240,23 @@ export const AdminStudentsManager: React.FC = () => {
                       {std.status}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-right space-x-1">
-                    <button
-                      onClick={() => openEditModal(std)}
-                      className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700"
-                      title="Edit Student"
-                    >
-                      <Edit className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(std.id, std.name)}
-                      className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700"
-                      title="Delete Student"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                  <td className="py-3 px-6 text-right whitespace-nowrap">
+                    <div className="flex items-center justify-end gap-1.5">
+                      <button
+                        onClick={() => openEditModal(std)}
+                        className="p-2 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 transition-colors"
+                        title="Edit Student"
+                      >
+                        <Edit className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(std.id, std.name)}
+                        className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 transition-colors"
+                        title="Delete Student"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -259,6 +281,15 @@ export const AdminStudentsManager: React.FC = () => {
             </h3>
 
             <form onSubmit={handleSave} className="space-y-4">
+              <PhotoUploadField
+                id="student-profile-photo"
+                label="Student Photo (Computer Upload or Link)"
+                value={photoUrl}
+                onChange={setPhotoUrl}
+                fallbackName={name || 'Student'}
+                helperText="Upload passport-size student photo from computer (JPG, PNG, WebP) or click 'Or use Image URL'"
+              />
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-bold text-slate-700 block mb-1">
